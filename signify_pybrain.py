@@ -5,16 +5,19 @@ from pybrain.datasets import SupervisedDataSet
 from pybrain.supervised.trainers import BackpropTrainer
 from pybrain.tools.shortcuts import buildNetwork
 
+import signify_base as base
+
+
+def create_training_set():
+    dataset = SupervisedDataSet(25, 1)
+    test_sample_file = open('test.txt').readlines()
+    for i in range(0, 50):
+        dataset.addSample(tuple(base.get_from_base(test_sample_file[i])['res']), tuple(i)) # на выход даем ему индекс слова
+    return dataset
+
+
 if __name__ == "__main__":
-    # print(set_test(['народ', 'народ', 'кислород', 'нырод', 'нарок', 'намек']))
-    # print(set_test(['кислород', 'кислород', 'кислородный', 'кисларод', 'кислородное', 'кислый', 'сладкий', "водород"]))
-    # print(set_test(['россия', 'россия', 'русь', 'русский', 'расия', 'раша']))
     net = buildNetwork(25, 5, 5)
-    dataset = SupervisedDataSet(25, 5)
-    dataset.addSample((2.97, 2.24, 4.46, 4.55, 3.67, 2.12, 3.09, 1.47, 3.93, 2.73, 3.09, 3.96, 3.94, 2.63, 4.46, 1.88, 2.26, 3.91, 2.78, 1.99, 2.62, 1.65, 3.99, 1.69, 2.15), (1, 0, 0, 0, 0))
-    dataset.addSample((2.91, 2.51, 4.11, 4.11, 3.44, 2.24, 3.11, 1.85, 3.67, 2.75, 3.15, 3.87, 3.69, 2.63, 4.12, 2.15, 2.29, 3.81, 2.68, 2.13, 2.78, 1.94, 3.79, 1.96, 2.27),(0, 1, 0, 0, 0))
-    dataset.addSample((3.23, 3.27, 3.31, 3.18, 2.73, 2.85, 3.07, 2.85, 3.23, 2.9, 3.61, 3.65, 2.79, 2.77, 3.32, 3.15, 3.11, 3.34, 3.02, 3.13, 3.41, 3.28, 3.67, 3.0, 3.03),(0, 0, 1, 0, 0))
-    dataset.addSample((2.95, 2.21, 4.49, 4.58, 3.7, 2.09, 3.09, 1.44, 3.95, 2.72, 3.07, 3.97, 3.97, 2.62, 4.49, 1.85, 2.23, 3.93, 2.76, 1.95, 2.59, 1.6, 3.99, 1.65, 2.12),(0, 0, 0, 1, 0))
-    dataset.addSample((2.88, 2.35, 4.28, 4.31, 3.58, 2.13, 3.11, 1.64, 3.77, 2.72, 3.08, 3.92, 3.86, 2.61, 4.29, 1.96, 2.17, 3.89, 2.64, 1.96, 2.66, 1.7, 3.84, 1.76, 2.14),(0, 0, 0, 0, 1))
+    dataset = create_training_set()
     trainer = BackpropTrainer(net, dataset)
     print(trainer.trainUntilConvergence())
