@@ -1,17 +1,15 @@
 ﻿#!/usr/bin/python3
 #  -*- coding: utf-8 -*-
 
-import math
-import signify_base
-from pybrain.tools.shortcuts import buildNetwork
 from pybrain.datasets import SupervisedDataSet
 from pybrain.supervised.trainers import BackpropTrainer
+from pybrain.tools.shortcuts import buildNetwork
 
 if __name__ == "__main__":
     # print(set_test(['народ', 'народ', 'кислород', 'нырод', 'нарок', 'намек']))
     # print(set_test(['кислород', 'кислород', 'кислородный', 'кисларод', 'кислородное', 'кислый', 'сладкий', "водород"]))
     # print(set_test(['россия', 'россия', 'русь', 'русский', 'расия', 'раша']))
-    net = buildNetwork(25, 3, 5)
+    net = buildNetwork(25, 5, 5)
     dataset = SupervisedDataSet(25, 5)
     dataset.addSample((2.97, 2.24, 4.46, 4.55, 3.67, 2.12, 3.09, 1.47, 3.93, 2.73, 3.09, 3.96, 3.94, 2.63, 4.46, 1.88, 2.26, 3.91, 2.78, 1.99, 2.62, 1.65, 3.99, 1.69, 2.15), (1, 0, 0, 0, 0))
     dataset.addSample((2.91, 2.51, 4.11, 4.11, 3.44, 2.24, 3.11, 1.85, 3.67, 2.75, 3.15, 3.87, 3.69, 2.63, 4.12, 2.15, 2.29, 3.81, 2.68, 2.13, 2.78, 1.94, 3.79, 1.96, 2.27),(0, 1, 0, 0, 0))

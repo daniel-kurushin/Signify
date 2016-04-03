@@ -1,10 +1,11 @@
 ﻿#!/usr/bin/python
 #  -*- coding: utf-8 -*-
 
+import json
+import math
+
 import requests
 from bs4 import BeautifulSoup
-import math
-import json
 
 url = 'https://psi-technology.net/servisfonosemantika.php'
 params = {'slovo':'',
