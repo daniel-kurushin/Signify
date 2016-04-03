@@ -17,7 +17,7 @@ def create_training_set():
 
 
 if __name__ == "__main__":
-    net = buildNetwork(25, 5, 5)
+    net = buildNetwork(25, 5, 1)
     dataset = create_training_set()
     trainer = BackpropTrainer(net, dataset)
     print(trainer.trainUntilConvergence())
