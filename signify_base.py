@@ -1,16 +1,16 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 #  -*- coding: utf-8 -*-
 
 import requests
 from bs4 import BeautifulSoup
+import math
 import json
-import wikipedia
-
 
 url = 'https://psi-technology.net/servisfonosemantika.php'
 params = {'slovo':'',
              'sub':'submit'
           }
+
 
 def get_zhur_index(word=''):
     params['slovo'] = word
@@ -33,36 +33,52 @@ def get_zhur_index(word=''):
     for item in table_content: #заменяем остатки хтмл-таблички на нормальное число и пишем его в список
         results.append(float(str(item[0]).split('<td>')[1].split('</td>')[0].replace(',','.')))
 
-    #складываем все полученное и вроде как идентификатор
-    zhur_index = 0.0
-    for param in results:
-        zhur_index += param
+    return {'word':word, 'res':tuple(results)}
 
-    return zhur_index
 
-def add_to_base(word=''):
-    with open('base.txt', 'a', encoding='utf-8') as output:
-        output.write('"'+str(get_zhur_index(word))+'":"'+word+'",\n')
-
-def signify(zhur_index=0.0):
-    f = open('base.txt', 'r', encoding='utf-8-sig')
-    local_dict = json.load(f)
-    if str(zhur_index) in local_dict.keys():
-        print(local_dict[str(zhur_index)])
-        try:
-            wikipedia.set_lang('ru')
-            print(local_dict[str(zhur_index)] +'\n' + wikipedia.summary(local_dict[str(zhur_index)]))
-        except:
-            print("No such page")
-
-def set_base():
-    test_doc = open('test.txt', 'r').readlines()
-    f = open('base.txt', 'a', encoding='utf-8')
-    f.write('{')
-    for line in test_doc:
-        add_to_base(line[:-1])
-    f.write('}')
+def set_zhur_base(word_file = 'test.txt'):
+    words = open(word_file, 'r').readlines()
+    f = open('base.json', 'a', encoding='utf-8')
+    result_list = []
+    for word in words:
+        result_list.append(get_zhur_index(word[:-1]))
+    json.dump(result_list, f, ensure_ascii = False)
     f.close()
 
-#set_base()
-signify(74.23)
+
+def get_from_base(word = '', base_file = 'base.json'):
+    base = json.load(open(base_file, 'r', encoding='utf-8'))
+    for item in base:
+        if item['word'] == word:
+            return item
+
+
+def get_range(vector1 = (), vector2 = ()):
+    t = 0.0
+    for i in range(len(vector1)):
+        t += (vector2[i] - vector1[i])**2
+    return math.sqrt(t)
+
+
+# def set_test(test_words):
+#     result_zhur = []
+#     for word in test_words:
+#         result_zhur.append(get_zhur_index(word))
+#     result_range = []
+#     for i in range(1,len(test_words)):
+#         result_range.append((result_zhur[i]['word'], get_range(result_zhur[0]['res'], result_zhur[i]['res'])))
+#
+#     return result_range
+
+def set_test(test_words):
+    result_zhur = []
+    for word in test_words:
+        result_zhur.append(get_from_base(word))
+    result_range = []
+    for i in range(1,len(test_words)):
+        result_range.append((result_zhur[i]['word'], get_range(result_zhur[0]['res'], result_zhur[i]['res'])))
+    return result_range
+
+if __name__ == "__main__":
+    # set_zhur_base()
+    print(set_test(['айвазовский', 'армеец', 'наука', 'азия']))
