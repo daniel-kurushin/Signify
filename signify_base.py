@@ -52,6 +52,8 @@ def get_from_base(word = '', base_file = 'base.json'):
     for item in base:
         if item['word'] == word:
             return item
+        else:
+            return get_zhur_index(word)
 
 
 def get_range(vector1 = (), vector2 = ()):
