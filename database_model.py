@@ -14,10 +14,10 @@ class Significate(models.Model):
 
 class Link(models.Model):
     weight = models.FloatField()
-    denotation_1 = models.ManyToManyField(Significate)
+    significate_from = models.ManyToManyField(Significate)
     link = models.ForeignKey(Significate)
-    denotation_2 = models.ManyToManyField(Significate)
-    # probability = models.FloatField()
+    significate_to = models.ManyToManyField(Significate)
+    probability = models.FloatField()
 
     def __str__(self):
         return self.link.__str__()
