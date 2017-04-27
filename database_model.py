@@ -22,12 +22,20 @@ class Link(models.Model):
     def __str__(self):
         return self.link.__str__()
 
+class Domain(models.Model):
+    positive_significates = models.ManyToManyField(Significate)
+    negative_significates = models.ManyToManyField(Significate)
 
 class Lexeme(models.Model):
     lemma = models.CharField(max_length=255)
     # набор лингвистических характеристик, зависит от того, что парсим и что учитываем
     PARTS_OF_SPEECH = (('S', 'Substantive'), ('V', 'Verb'))  # todo
     part_of_speech = models.CharField(max_length=1, choices=PARTS_OF_SPEECH)
+
+
+class Sentence(models.Model):
+    #todo
+    pass
 
 
 class Phrase(models.Model):
@@ -47,10 +55,17 @@ class Text(models.Model):
     headline = models.CharField(max_length=255)
     body = models.TextField()
 
+class QueryText(models.Model):
+    pass
+
+class TrainingText(models.Model):
+    pass
+
 
 class Dictionary(models.Model):
     lexeme = models.ManyToManyField(Lexeme)  # лексема, которой выражается сигнификат
     significate = models.ManyToManyField(Significate)
+    definition = models.TextField()
 
 # Данные поступают и записываются в таблицу Текст. Оттуда мы их берем и обрабатываем, разбираем на предложения и слова,
 # парсим лингвистические характеристики, потом записываем в таблицу Фраз и Лексем (если Лексема новая) при помощи
