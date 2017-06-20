@@ -32,8 +32,8 @@ class Lexeme(models.Model):
     part_of_speech = models.CharField(max_length=4)
 
 class Sentence(models.Model):
-    sentens: models.ForeignKey(Text)
-    sentence: models.TextField()
+    sentens=models.ForeignKey(Text)
+    sentence=models.TextField()
 
 class Phrase(models.Model):
     lexeme_1 = models.ManyToManyField(Lexeme)
@@ -55,6 +55,8 @@ class TrainingText(models.Model):
             t = Mystem()
             PARS = []
             for sent in _sentenceList:
+                #Сохраняем предложение в таблице предложение
+                Sentence.objects.create(sentens=text.id,sentence=sent)                
                 input_file = open("input.txt", "w", encoding="utf-8")
                 input_file.write(sent)
                 input_file.close()
