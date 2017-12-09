@@ -31,7 +31,7 @@ if __name__ == '__main__':
 		get_graph(term, 0)
 	print("digraph g {\n\trankdir=LR;")
 	for definition, word in tree.keys():
-		print("\t\"%s\" -> \"%s\"" % typle([normalize_term(_) for _ in [definition, word]]))
+		print("\t\"%s\" -> \"%s\"" % tuple([normalize_term(_) for _ in [definition, word]]))
 	print("}")
 	#graph = get_graph(definition = "дерево")
 	# понятие -> понятие2
