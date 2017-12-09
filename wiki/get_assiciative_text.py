@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from get_definition import get_definition
 from get_keywords2 import get_keywords, filter_keywords
+from normalize_term import normalize_term
 import sys
 
 tree = {}
@@ -25,12 +26,12 @@ def get_graph(definition = "Дерево", n = 0):
 		#print(tree)
 
 if __name__ == '__main__':
-	terms = ["информатика", "защита информации", "вычислительная техника", "искусственный интеллект", "программирование"]
+	terms = ["информационные технологии", "информация", "информатика", "защита информации", "вычислительная техника", "искусственный интеллект", "программирование"]
 	for term in terms:
 		get_graph(term, 0)
 	print("digraph g {\n\trankdir=LR;")
 	for definition, word in tree.keys():
-		print("\t\"%s\" -> \"%s\"" % (definition, word))
+		print("\t\"%s\" -> \"%s\"" % typle([normalize_term(_) for _ in [definition, word]]))
 	print("}")
 	#graph = get_graph(definition = "дерево")
 	# понятие -> понятие2
