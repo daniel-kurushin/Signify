@@ -7,7 +7,7 @@ ma = Mystem()
 def get_keywords(text = ""):
 	return [ _.normalized for _ in TermExtractor()(text) if _.count > 4 ]
 
-def filter_keywords(keywords = ["россия", "бердяев", "информатика", "англ"], tag_filter = set (["имя", "отч", "гео", "фам"]), word_filter = set(["англ"])):
+def filter_keywords(keywords = ["россия", "бердяев", "информатика", "англ"], tag_filter = set (["имя", "отч", "гео", "фам"]), word_filter = set(["англ", "displaystyle"])):
 	rez = []
 	for keyword in keywords:
 		params = []

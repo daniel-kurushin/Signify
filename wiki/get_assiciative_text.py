@@ -16,7 +16,7 @@ def get_graph(definition = "Дерево", n = 0):
 		open('/tmp/rez.txt','a').write("=\n%s\n=\n" % definition_text)
 
 		keywords = get_keywords(definition_text)
-		keywords = filter_keywords(keywords, set(['гео', 'фам']), set(['англ']))
+		keywords = filter_keywords(keywords, set(['гео', 'фам']), set(['англ', "displaystyle"]))
 
 		for word in keywords:
 			if word != definition and len(word) > 3:
