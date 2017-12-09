@@ -1,11 +1,15 @@
 #!/usr/bin/python3
 from get_definition import get_definition
 from get_keywords2 import get_keywords, filter_keywords
+import sys
 
 tree = {}
 
 def get_graph(definition = "Дерево", n = 0):
 	global tree
+
+	print(n, definition, file=sys.stderr)
+
 	if n < 3:
 		definition_text = get_definition(definition)
 		open('/tmp/rez.txt','a').write("=\n%s\n=\n" % definition_text)
@@ -21,7 +25,9 @@ def get_graph(definition = "Дерево", n = 0):
 		#print(tree)
 
 if __name__ == '__main__':
-	get_graph("Защита информации", 0)
+	terms = ["информатика", "защита информации", "вычислительная техника", "искусственный интеллект", "программирование"]
+	for term in terms:
+		get_graph(term, 0)
 	print("digraph g {\n\trankdir=LR;")
 	for definition, word in tree.keys():
 		print("\t\"%s\" -> \"%s\"" % (definition, word))
