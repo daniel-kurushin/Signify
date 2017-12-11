@@ -16,7 +16,7 @@ def get_graph(definition = "Дерево", n = 0):
 		open('/tmp/rez.txt','a').write("=\n%s\n=\n" % definition_text)
 
 		keywords = get_keywords(definition_text)
-		keywords = filter_keywords(keywords, set(['гео', 'фам']), set(['англ', "displaystyle"]))
+		keywords = filter_keywords(keywords, set(['гео', 'фам']), set([r'англ', r"displaystyle.*"]))
 
 		for word in keywords:
 			if word != definition and len(word) > 3:
@@ -31,7 +31,8 @@ if __name__ == '__main__':
 		get_graph(term, 0)
 	print("digraph g {\n\trankdir=LR;")
 	for definition, word in tree.keys():
-		print("\t\"%s\" -> \"%s\"" % tuple([normalize_term(_) for _ in [definition, word]]))
+		definition, word = [ normalize_term(_) for _ in [definition, word] ]
+		if definition != word: print("\t\"%s\" -> \"%s\"" % (definition, word))
 	print("}")
 	#graph = get_graph(definition = "дерево")
 	# понятие -> понятие2

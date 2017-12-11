@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 from rutermextract import TermExtractor
 from pymystem3 import Mystem
+from re import match
 
 ma = Mystem()
 
 def get_keywords(text = ""):
-	return [ _.normalized for _ in TermExtractor()(text) if _.count > 4 ]
+	return [ _.normalized for _ in TermExtractor()(text) if _.count > 1 ][0:10]
 
 def filter_keywords(keywords = ["россия", "бердяев", "информатика", "англ"], tag_filter = set (["имя", "отч", "гео", "фам"]), word_filter = set(["англ", "displaystyle"])):
 	rez = []
@@ -16,7 +17,7 @@ def filter_keywords(keywords = ["россия", "бердяев", "информ�
 				params += a['analysis'][0]['gr'].split(',')
 			except (KeyError, IndexError):
 				pass
-		if (not tag_filter & set(params)) & (keyword not in word_filter):
+		if (not tag_filter & set(params)) and sum([ bool(match(_, keyword)) for _ in word_filter ]) == 0:
 			rez += [keyword]
 	return rez
 
